@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.blog.mapper.mapperDAO">
+
+	<insert id="insertJoin" parameterType="String">
+		insert into blogjoin(id, pw) values (#{id}, #{pw})
+	</insert>
+
+	<select id="selectLogin" parameterType="String" resultType="com.blog.DTO.loginDTO">
+		select * from blogjoin where id = #{loginID} and pw = #{loginPW}
+	</select>
+
+</mapper>

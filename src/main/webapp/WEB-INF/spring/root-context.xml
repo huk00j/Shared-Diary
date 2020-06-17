@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+
+	<!-- bean들이 서로 ref로 참조. -->
+	<bean
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		id="dataSource">
+		<property value="oracle.jdbc.driver.OracleDriver"
+			name="driverClassName" />
+		<property value="jdbc:oracle:thin:@localhost:1521:orcl"
+			name="url" />
+		<!-- 오라클 사용자 이름 -->
+		<property value="system" name="username" />
+		<!-- 오라클 사용자 비밀번호 -->
+		<property value="11111111" name="password" />
+	</bean>
+
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		id="sqlSessionFactory">
+		<property name="dataSource" ref="dataSource" />
+		<property value="classpath:/mapper/*Mapper.xml"
+			name="mapperLocations" />                <!-- mapper 지정 -->
+		<!-- 28번줄 적어놓으면서 config.xml 을 사용할 필요가 없어짐. ~이런 것이 있다는 것만 확인하느라. -->
+	</bean>
+
+
+	<!-- 트랜잭션 : 하나의 논리적인 일을 처리하기 위한 단위 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+
+</beans>
